@@ -8,15 +8,16 @@ services:
     ports:
       - '80:80'
       - '443:443'
-      # - '8090:8090'
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
-      - ./data:/data
+      - caddy_data:/data
       - caddy_config:/config
       - ./caddy/ca-certificates:/usr/local/share/ca-certificates
-      - ./pb:/pb
+      - ./pb:/data/caddy/pb_data
     environment:
       - FQDN=${FQDN}
 
 volumes:
+  caddy_data:
+    external: true
   caddy_config:

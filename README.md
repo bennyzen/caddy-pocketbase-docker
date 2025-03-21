@@ -6,6 +6,7 @@ easy to use Docker Compose stack.
 ## Usage
 
 - copy the `.env.example` to `.env` and fill in the required values
+- run `docker volume create caddy_data` to create a volume for Caddy
 - run `docker-compose up --build -d && docker-compose logs -f` to start the
   stack and follow the logs
 - to create a superuser, copy the link from the logs and paste it into your
