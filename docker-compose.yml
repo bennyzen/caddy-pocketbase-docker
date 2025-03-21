@@ -1,0 +1,22 @@
+services:
+  caddy:
+    container_name: caddy
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+      # - '8090:8090'
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      - ./data:/data
+      - caddy_config:/config
+      - ./caddy/ca-certificates:/usr/local/share/ca-certificates
+      - ./pb:/pb
+    environment:
+      - FQDN=${FQDN}
+
+volumes:
+  caddy_config:
