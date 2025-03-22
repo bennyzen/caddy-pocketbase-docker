@@ -45,6 +45,7 @@ easy to use Docker Compose stack.
 > `caddy/ca-certificates` directory, once you've started the stack.
 
 Access the PocketBase dashboard under https://${FQDN}/_/
+
 Access the PocketBase API under https://${FQDN}/api/
 
 Refer to the [PocketBase API documentation](https://pocketbase.io/docs/api-records/)
