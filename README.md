@@ -6,7 +6,6 @@ This repository provides a ready-to-deploy Docker Compose stack that seamlessly 
 
 * **Integrated Caddy and PocketBase:** Leverage Caddy's automatic HTTPS and reverse proxy capabilities alongside PocketBase's real-time database and authentication features, all within a single, cohesive environment.
 * **Simplified Docker Compose Deployment:** Get your application up and running quickly with a pre-configured Docker Compose stack, minimizing setup complexity.
-* **Admin API Endpoints:** Manage PocketBase superusers directly through dedicated Caddy endpoints (`/pocketbase/`), providing convenient control over administrative tasks.
 * **Easy Superuser Creation:** Streamlined superuser creation process via a generated link in the logs, simplifying initial setup.
 * **Secure HTTPS by Default:** Caddy's automatic HTTPS ensures your application is served securely.
 * **Local Development with Self-Signed Certificates:** Provides clear instructions for handling self-signed certificates when using localhost for development.
@@ -45,32 +44,8 @@ easy to use Docker Compose stack.
 > browser to avoid SSL errors. The CA certificate is located in the
 > `caddy/ca-certificates` directory, once you've started the stack.
 
-## Admin API Endpoints
-
-The module provides admin API endpoints under `/pocketbase/`:
-
-- `POST /pocketbase/superuser` - Create a new superuser
-- `PUT /pocketbase/superuser` - Upsert a superuser
-- `PATCH /pocketbase/superuser` - Update superuser password
-- `DELETE /pocketbase/superuser` - Delete a superuser
-- `POST /pocketbase/superuser/{email}/otp` - Generate OTP for superuser
-
-Usually, as soon as you have created the first superuser, the above endpoints are 
-not needed anymore, as you can do all that using the PocketBase UI itself. Be careful 
-when exposing them to your host, as it would implicate a serious security risk. Expose 
-them only if you know what you're doing.
-
-All the above endpoints require a JSON payload, except for the OTP endpoint. The
-JSON payload for the superuser endpoints is as follows:
-
-```json
-{
-  "email_address": "...",
-  "password": "..."
-}
-```
-
-The `DELETE` endpoint does not expect the `password` field.
+Access the PocketBase dashboard under https://${FQDN}/_/
+Access the PocketBase API under https://${FQDN}/api/
 
 Refer to the [PocketBase API documentation](https://pocketbase.io/docs/api-records/)
 for more information on how to interact with the API.
