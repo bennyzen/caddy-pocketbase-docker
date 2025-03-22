@@ -55,6 +55,11 @@ The module provides admin API endpoints under `/pocketbase/`:
 - `DELETE /pocketbase/superuser` - Delete a superuser
 - `POST /pocketbase/superuser/{email}/otp` - Generate OTP for superuser
 
+Usually, as soon as you have created the first superuser, the above endpoints are 
+not needed anymore, as you can do all that using the PocketBase UI itself. Be careful 
+when exposing them to your host, as it would implicate a serious security risk. Expose 
+them only if you know what you're doing.
+
 All the above endpoints require a JSON payload, except for the OTP endpoint. The
 JSON payload for the superuser endpoints is as follows:
 
