@@ -1,4 +1,27 @@
-# Caddy meets PocketBase
+# Caddy with builtin PocketBase: A Streamlined Docker Deployment
+
+This repository provides a ready-to-deploy Docker Compose stack that seamlessly integrates Caddy, a powerful, easy-to-use web server, with PocketBase, a lightweight, open-source backend. By packaging PocketBase as a Caddy module, this setup offers a simplified and efficient way to manage your backend and frontend services.
+
+**Key Features:**
+
+* **Integrated Caddy and PocketBase:** Leverage Caddy's automatic HTTPS and reverse proxy capabilities alongside PocketBase's real-time database and authentication features, all within a single, cohesive environment.
+* **Simplified Docker Compose Deployment:** Get your application up and running quickly with a pre-configured Docker Compose stack, minimizing setup complexity.
+* **Admin API Endpoints:** Manage PocketBase superusers directly through dedicated Caddy endpoints (`/pocketbase/`), providing convenient control over administrative tasks.
+* **Easy Superuser Creation:** Streamlined superuser creation process via a generated link in the logs, simplifying initial setup.
+* **Secure HTTPS by Default:** Caddy's automatic HTTPS ensures your application is served securely.
+* **Local Development with Self-Signed Certificates:** Provides clear instructions for handling self-signed certificates when using localhost for development.
+* **Comprehensive Usage Instructions:** Step-by-step guidance for setting up, configuring, and interacting with the stack.
+* **PocketBase API Access:** Direct access to PocketBase's robust API for data management and user authentication.
+
+**Ideal for:**
+
+* Rapid prototyping of web applications.
+* Developing backend-as-a-service (BaaS) applications.
+* Creating simple, data-driven websites and mobile apps.
+* Users looking for a straightforward and efficient development workflow.
+
+This repository streamlines the deployment of Caddy and PocketBase, empowering you to focus on building your application rather than managing complex server configurations.
+
 
 Caddy with builtin PocketBase (as Caddy module), all nicely wrapped up in an
 easy to use Docker Compose stack.
