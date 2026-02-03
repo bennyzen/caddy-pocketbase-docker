@@ -27,8 +27,7 @@ easy to use Docker Compose stack.
 
 ## Usage
 
-- copy the `.env.example` to `.env` and fill in the required values
-- run `docker volume create caddy_data` to create a volume for Caddy
+- copy the `.env.example` to `.env` and fill in the required values (e.g., `FQDN=localhost` or your domain)
 - run `docker-compose up --build -d && docker-compose logs -f` to start the
   stack and follow the logs
 - to create a superuser, copy the link from the logs and paste it into your
@@ -50,6 +49,48 @@ Access the PocketBase API under https://${FQDN}/api/
 
 Refer to the [PocketBase API documentation](https://pocketbase.io/docs/api-records/)
 for more information on how to interact with the API.
+
+## Troubleshooting
+
+### SSL Certificate Errors (localhost development)
+
+When using `localhost` as FQDN, Caddy generates a self-signed certificate. You have two options:
+
+1. **Install the CA certificate** (recommended): The CA certificate is auto-generated in `caddy/ca-certificates/` after first run. Install it in your browser/system trust store.
+2. **Accept the risk**: Bypass the SSL warning in your browser (not recommended for production).
+
+### Superuser Creation Issues
+
+If the superuser creation link doesn't work:
+- Make sure you replaced `http://127.0.0.1:12345` with `https://${FQDN}` in the link from the logs
+- Check that your FQDN resolves correctly (add to `/etc/hosts` if testing locally)
+- Verify the container is healthy: `docker-compose ps`
+
+### Health Check Failures
+
+If the health check keeps failing:
+- Check logs: `docker-compose logs caddy`
+- Verify PocketBase is responding: `curl -k https://localhost/api/health`
+- Ensure port 80/443 are not already in use
+
+## Security Considerations
+
+**⚠️ Important for Production Deployments:**
+
+- **Admin API Endpoints**: This setup exposes PocketBase admin endpoints at `/pocketbase/*` (for superuser management). In production, consider restricting access via firewall rules or Caddy matchers.
+- **Change Default Ports**: The internal PocketBase port (8090) is configurable in the Caddyfile if you need to avoid conflicts.
+- **HTTPS Only**: Always use valid certificates in production (Let's Encrypt via Caddy is automatic for public domains).
+- **Admin UI Access**: The PocketBase dashboard at `/_/` should be restricted to authorized IPs in production environments.
+
+## Upgrading
+
+To upgrade Caddy or PocketBase:
+
+1. **Caddy**: Update the version in `Dockerfile` (e.g., `FROM caddy:2.10-builder`)
+2. **PocketBase Module**: The module version is pulled at build time via `xcaddy build --with github.com/mohammed90/caddy-pocketbase@latest`
+3. Rebuild: `docker-compose up --build -d`
+
+## Thanks
 
 Thanks to [mohammed90](https://github.com/mohammed90) for the
 [caddy-pocketbase](https://github.com/mohammed90/caddy-pocketbase) module.

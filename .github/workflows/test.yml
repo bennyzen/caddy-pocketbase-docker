@@ -1,0 +1,46 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main, master, update-* ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Create .env file
+        run: echo "FQDN=localhost" > .env
+      
+      - name: Build and start services
+        run: |
+          docker compose up -d --build
+          sleep 15
+      
+      - name: Check service status
+        run: docker compose ps
+      
+      - name: Wait for health check
+        run: |
+          timeout 60 bash -c 'until docker inspect caddy --format="{{.State.Health.Status}}" | grep -q healthy; do sleep 2; done' || true
+      
+      - name: Test API health endpoint
+        run: |
+          curl -k -f http://localhost/api/health || exit 1
+      
+      - name: Test PocketBase admin UI
+        run: |
+          curl -k -f http://localhost/_/ || exit 1
+      
+      - name: Show logs on failure
+        if: failure()
+        run: docker compose logs
+      
+      - name: Cleanup
+        if: always()
+        run: docker compose down -v
