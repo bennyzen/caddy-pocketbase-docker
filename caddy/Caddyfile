@@ -2,7 +2,7 @@
 	# see https://caddyserver.com/docs/json/apps/pocketbase
 	pocketbase {
 		listen 8090 # port pocketbase will listen to
-		# data_dir /pb # data directory (BUG: this is not working)
+		data_dir /data/caddy/pb_data # PocketBase data directory
 		# origins # all origins allowed when empty
 	}
 	order pocketbase before file_server
@@ -10,8 +10,4 @@
 
 {$FQDN} {
 	pocketbase
-
-	handle /test {
-		respond "Hello, World!"
-	}
 }
